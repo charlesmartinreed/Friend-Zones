@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FriendViewController: UITableViewController {
+class FriendViewController: UITableViewController, Storyboarded {
 
     //MARK:- Properties
      //need bi-directional reference to previous screen, in form of a Friend object and a delegate

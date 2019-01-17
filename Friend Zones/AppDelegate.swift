@@ -12,10 +12,26 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var coordinator: MainCoordinator?
+    
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //bootstraping the app by creating our own nav controller...
+        let navController = UINavigationController()
+        //using a main coordinator for our coordinator, with our nav...
+        coordinator = MainCoordinator(navigationController: navController)
+        //starting that coordinator to get our view
+        coordinator?.start()
+        
+        //build window, make it fill the screen
+        window = UIWindow(frame: UIScreen.main.bounds)
+        //set the root view controller
+        window?.rootViewController = navController
+        //show the window
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
