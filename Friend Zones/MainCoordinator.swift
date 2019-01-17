@@ -22,6 +22,19 @@ class MainCoordinator: Coordinator {
         //will also be used to show other view controllers along the way
         
         let vc = ViewController.instantiate()
+        vc.coordinator = self //tell the VC how to talk to us when something interesting has happened
         navigationController.pushViewController(vc, animated: false)
+    }
+    
+    //was originally in ViewController
+    func configure(friend: Friend) {
+        //create instance of FriendVC, assign self as delegate, assign selected friend as FriendVC's friend property and push the Friend VC onto the stack
+        let vc = FriendViewController.instantiate()
+        
+        //update selected friend
+        vc.coordinator = self
+        vc.friend = friend
+        
+        navigationController.pushViewController(vc, animated: true)
     }
 }

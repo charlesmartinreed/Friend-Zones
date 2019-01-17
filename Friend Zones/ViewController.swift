@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UITableViewController, Storyboarded {
 
     //MARK:- Properties
+    weak var coordinator: MainCoordinator?
     var friends = [Friend]()
     var selectedFriend: Int? = nil
     
@@ -50,7 +51,8 @@ class ViewController: UITableViewController, Storyboarded {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //by calling the configure method here, we allow editing of the friend by tapping on the row
-        configure(friend: friends[indexPath.row], position: indexPath.row)
+        selectedFriend = indexPath.row
+        coordinator?.configure(friend: friends[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -71,22 +73,8 @@ class ViewController: UITableViewController, Storyboarded {
         saveData()
         
         //immediately begin editing friend
-        configure(friend: friend, position: friends.count - 1)
-    }
-    
-    func configure(friend: Friend, position: Int) {
-        //create instance of FriendVC, assign self as delegate, assign selected friend as FriendVC's friend property and push the Friend VC onto the stack
-        
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "FriendViewController") as? FriendViewController else {
-            fatalError("Unable to create FriendViewController.")
-        }
-        
-        //update selected friend
-        selectedFriend = position
-        vc.delegate = self
-        vc.friend = friend
-        
-        navigationController?.pushViewController(vc, animated: true)
+        selectedFriend = friends.count - 1
+        coordinator?.configure(friend: friend)
     }
     
     func update(friend: Friend) {

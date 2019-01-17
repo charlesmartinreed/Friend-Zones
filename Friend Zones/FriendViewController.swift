@@ -13,6 +13,7 @@ class FriendViewController: UITableViewController, Storyboarded {
     //MARK:- Properties
      //need bi-directional reference to previous screen, in form of a Friend object and a delegate
     var friend: Friend!
+    weak var coordinator: MainCoordinator?
     weak var delegate: ViewController?
     
     let nameCellIdentifer = "NameCell"
