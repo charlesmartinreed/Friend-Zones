@@ -103,8 +103,8 @@ class FriendViewController: UITableViewController {
             let timeZone = timeZones[indexPath.row]
             
             cell.textLabel?.text = timeZone.identifier.replacingOccurrences(of: "_", with: " ")
-            let timeDifference = timeZone.secondsFromGMT(for: Date()) / 3600
-            cell.detailTextLabel?.text = "\(timeDifference) hours GMT"
+            let timeDifference = timeZone.secondsFromGMT(for: Date())
+            cell.detailTextLabel?.text = timeDifference.timeString()
             
             //display to the user which time zone is currently selected
             if indexPath.row == selectedTimeZone {
