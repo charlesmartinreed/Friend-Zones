@@ -61,9 +61,16 @@ class FriendViewController: UITableViewController {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        //call the method in VC to update friend as this FriendVC
+        super.viewWillDisappear(animated)
+        delegate?.update(friend: friend)
+    }
+    
     //MARK:- IBActions
     @IBAction func nameChanged(_ sender: UITextField) {
         //calls the vc every time the key stroke is detected
+        friend.name = sender.text ?? ""
         
     }
     
@@ -128,7 +135,7 @@ class FriendViewController: UITableViewController {
     func startEditingName() {
         nameEditingCell?.textField.becomeFirstResponder()
         
-        //when editing is complete, we'll need to update the friend.name to reflect the changes
+        //when editing is complete, we'll need to update the friend.name to reflect the changes - handled in nameChanged
     }
     
     func selectRow(at indexPath: IndexPath) {

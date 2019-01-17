@@ -12,6 +12,8 @@ class ViewController: UITableViewController {
 
     //MARK:- Properties
     var friends = [Friend]()
+    var selectedFriend: Int? = nil
+    
     let cellIdentifier = "Cell"
     
     override func viewDidLoad() {
@@ -65,10 +67,22 @@ class ViewController: UITableViewController {
             fatalError("Unable to create FriendViewController.")
         }
         
+        //update selected friend
+        selectedFriend = position
         vc.delegate = self
         vc.friend = friend
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func update(friend: Friend) {
+        //this method will be called by the FriendViewController, used to reflect editing changes
+        guard let selectedFriend = selectedFriend else { return }
+        
+        friends[selectedFriend] = friend //take item in array that we're editing and replace it with the new friend
+        saveData()
+        tableView.reloadData()
+        
     }
     
     
