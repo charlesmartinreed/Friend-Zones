@@ -37,4 +37,13 @@ class MainCoordinator: Coordinator {
         
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func update(friend: Friend) {
+        //this method will be called by the FriendViewController in this app, used to reflect editing changes
+        
+        //get root view controller and make sure it's the right type and then relay the update message to it
+        guard let vc = navigationController.viewControllers.first as? ViewController else { return }
+        vc.update(friend: friend)
+        
+    }
 }

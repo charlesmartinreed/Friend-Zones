@@ -13,8 +13,7 @@ class FriendViewController: UITableViewController, Storyboarded {
     //MARK:- Properties
      //need bi-directional reference to previous screen, in form of a Friend object and a delegate
     var friend: Friend!
-    weak var coordinator: MainCoordinator?
-    weak var delegate: ViewController?
+    weak var coordinator: MainCoordinator? //coordinator is handling delegate functionality
     
     let nameCellIdentifer = "NameCell"
     let timeZoneCellIdentifer = "TimeZoneCell"
@@ -65,7 +64,7 @@ class FriendViewController: UITableViewController, Storyboarded {
     override func viewWillDisappear(_ animated: Bool) {
         //call the method in VC to update friend as this FriendVC
         super.viewWillDisappear(animated)
-        delegate?.update(friend: friend)
+        coordinator?.update(friend: friend)
     }
     
     //MARK:- IBActions

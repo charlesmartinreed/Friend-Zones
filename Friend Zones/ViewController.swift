@@ -87,7 +87,6 @@ class ViewController: UITableViewController, Storyboarded {
         
     }
     
-    
     //MARK:- Data handling methods
     func loadData() {
         //pulling stored friend info from UserDefaults
