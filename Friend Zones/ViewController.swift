@@ -37,7 +37,13 @@ class ViewController: UITableViewController {
         
         let friend = friends[indexPath.row]
         cell.textLabel?.text = friend.name
-        cell.detailTextLabel?.text = friend.timeZone.identifier
+        
+        //formatting our identifer to show the current time in our friend's location instead of a generic identifer like America/Los Angeles
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = friend.timeZone
+        dateFormatter.timeStyle = .short
+        
+        cell.detailTextLabel?.text = dateFormatter.string(from: Date())
         
         return cell
     }
