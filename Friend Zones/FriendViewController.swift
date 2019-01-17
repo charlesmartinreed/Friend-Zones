@@ -132,6 +132,7 @@ class FriendViewController: UITableViewController {
         }
     }
     
+    
     func startEditingName() {
         nameEditingCell?.textField.becomeFirstResponder()
         

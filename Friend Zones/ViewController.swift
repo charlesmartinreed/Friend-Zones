@@ -53,6 +53,14 @@ class ViewController: UITableViewController {
         configure(friend: friends[indexPath.row], position: indexPath.row)
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            friends.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            saveData()
+        }
+    }
+    
     //MARK:- Friend configuration methods
     @objc func addFriend() {
         let friend = Friend()
