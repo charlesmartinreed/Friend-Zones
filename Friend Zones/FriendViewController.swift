@@ -122,16 +122,31 @@ class FriendViewController: UITableViewController {
             startEditingName() //by allowing anywhere in the cell to be tapped to activate the text editing, we've removed dead spots.
         } else {
             selectRow(at: indexPath) //will allow us the dismiss the first responder (keyboard, in this case) when selecting a row.
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
     }
     
     func startEditingName() {
         nameEditingCell?.textField.becomeFirstResponder()
+        
+        //when editing is complete, we'll need to update the friend.name to reflect the changes
     }
     
     func selectRow(at indexPath: IndexPath) {
         //when a row is tapped and selected, the keyboard should be resigned
         nameEditingCell?.textField.resignFirstResponder()
+        
+        //add checkmark to cell, remove checkmark from previous cells
+        for cell in tableView.visibleCells {
+            cell.accessoryType = .none
+        }
+        
+        selectedTimeZone = indexPath.row
+        friend.timeZone = timeZones[indexPath.row]
+        
+        let selected = tableView.cellForRow(at: indexPath)
+        selected?.accessoryType = .checkmark
+        
+        //animated transition to indicate that the row was selected
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
