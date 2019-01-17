@@ -13,9 +13,16 @@ class FriendViewController: UITableViewController {
     //MARK:- Properties
      //need bi-directional reference to previous screen, in form of a Friend object and a delegate
     var friend: Friend!
+    weak var delegate: ViewController?
+    
     let nameCellIdentifer = "NameCell"
     let timeZoneCellIdentifer = "TimeZoneCell"
-    weak var delegate: ViewController?
+   
+    var nameEditingCell: TextTableViewCell? {
+        //allows us to read and activate the name editing cell from anywhere in our code
+        let indexPath = IndexPath(row: 0, section: 0)
+        return tableView.cellForRow(at: indexPath) as? TextTableViewCell
+    }
     
     //array of time zones, index of selected time zone
     var timeZones = [TimeZone]()
@@ -95,7 +102,7 @@ class FriendViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: timeZoneCellIdentifer, for: indexPath)
             let timeZone = timeZones[indexPath.row]
             
-            cell.textLabel?.text = timeZone.identifier
+            cell.textLabel?.text = timeZone.identifier.replacingOccurrences(of: "_", with: " ")
             let timeDifference = timeZone.secondsFromGMT(for: Date()) / 3600
             cell.detailTextLabel?.text = "\(timeDifference) hours GMT"
             
@@ -108,5 +115,23 @@ class FriendViewController: UITableViewController {
             
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            startEditingName() //by allowing anywhere in the cell to be tapped to activate the text editing, we've removed dead spots.
+        } else {
+            selectRow(at: indexPath) //will allow us the dismiss the first responder (keyboard, in this case) when selecting a row.
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+    }
+    
+    func startEditingName() {
+        nameEditingCell?.textField.becomeFirstResponder()
+    }
+    
+    func selectRow(at indexPath: IndexPath) {
+        //when a row is tapped and selected, the keyboard should be resigned
+        nameEditingCell?.textField.resignFirstResponder()
     }
 }
